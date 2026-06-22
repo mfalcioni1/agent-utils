@@ -1,0 +1,43 @@
+---
+description: Pixel-art visual style and animation conventions
+globs: frontend/**/*.{tsx,css,svg}
+alwaysApply: false
+---
+
+# Pixel-Art Design
+
+## Scaling
+
+Integer scale factors only. Use `image-rendering: pixelated` or `crisp-edges`.
+
+```css
+/* ❌ BAD */
+.sprite { transform: scale(1.5); }
+
+/* ✅ GOOD */
+.sprite { transform: scale(2); image-rendering: pixelated; }
+```
+
+## Visual style
+
+- No blur, soft drop-shadows, or gradient-heavy UI (unless explicitly stylistic).
+- UI chrome should feel cohesive with the project's game/retro aesthetic, not generic SaaS.
+- Colors and fonts from project design tokens — do not invent new brand colors without updating tokens.
+
+## Typography
+
+Use the pixel/bitmap font defined in project design tokens.
+
+## Motion
+
+Stepped keyframe animation at **8–12 fps** feel. No smooth easing on sprite movement.
+
+## Assets
+
+Provide @2x variants or integer scale factors for Retina / high-DPI screens.
+
+## Full-screen views
+
+Respect safe-area insets (notch, home indicator) on immersive screens.
+
+Adjust path globs if the frontend directory differs.

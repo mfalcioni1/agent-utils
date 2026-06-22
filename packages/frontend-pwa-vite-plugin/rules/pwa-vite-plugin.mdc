@@ -1,0 +1,40 @@
+---
+description: PWA requirements via vite-plugin-pwa — not hand-rolled SW or Workbox-only setups
+globs: frontend/**/*.{ts,tsx,html}
+alwaysApply: false
+---
+
+# PWA — vite-plugin-pwa
+
+## Tooling
+
+Use `vite-plugin-pwa` — do not hand-roll service workers unless a skill explicitly requires it.
+
+## Manifest
+
+- `display: standalone`
+- Theme colors from project design tokens (e.g. `docs/design/tokens.md`)
+- Provide maskable icons (192px, 512px)
+
+## Offline caching
+
+- Cache app shell and static assets.
+- **Do not** cache authenticated API responses by default.
+
+## Service worker scope
+
+SW is for caching and installability. Core app flows must work without SW-only hooks (native Capacitor builds may differ).
+
+## Installability
+
+Lighthouse PWA checks are acceptance criteria for frontend changes.
+
+## Push notifications
+
+Access through `frontend/src/platform/notifications.ts`, not directly via browser APIs.
+
+## Meta tags
+
+Include `apple-mobile-web-app-capable` and `viewport-fit=cover` to align with Capacitor full-screen shell.
+
+Adjust path globs if the frontend directory differs.

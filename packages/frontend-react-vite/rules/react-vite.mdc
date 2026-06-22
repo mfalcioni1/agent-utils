@@ -1,0 +1,39 @@
+---
+description: React and TypeScript conventions for Vite projects — not Next.js or CRA
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# React Frontend
+
+## Components
+
+- Functional components and hooks only.
+- Colocate component, styles, and tests in the same directory.
+
+## API access
+
+```typescript
+// ❌ BAD — fetch in a component
+const res = await fetch(`${url}/items`);
+
+// ✅ GOOD — use the api client layer
+import { listItems } from '@/api/items';
+const items = await listItems();
+```
+
+All HTTP calls go through `frontend/src/api/`. Backend URLs come from config (`import.meta.env.VITE_API_URL`), never hardcoded in components.
+
+## Async UI
+
+Every async operation needs loading and error states.
+
+## Styling
+
+Use CSS modules (`Component.module.css`) unless the project documents otherwise. Global tokens live in `frontend/src/styles/`.
+
+## Platform APIs
+
+Storage, notifications, and device info go through `frontend/src/platform/` — never call `window`, `localStorage`, or `navigator` directly from components.
+
+Adjust path globs if the frontend directory differs (e.g. `web/**/*.{ts,tsx}`).

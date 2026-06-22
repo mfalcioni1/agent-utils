@@ -1,0 +1,26 @@
+---
+description: Generic agent working agreements for repository development
+alwaysApply: true
+---
+
+# Agent Workflow
+
+## Before editing
+
+1. Read the project's `AGENTS.md` (if present) for repo map, stack, and deploy context.
+2. Check relevant `.cursor/rules/*.mdc` for files you will touch.
+3. Invoke a skill for multi-step tasks (bootstrap, deploy, feature workflows).
+
+## Scope
+
+- One concern per change; minimize diff size.
+- Do not scaffold app features during rules-only or docs-only tasks.
+- Match existing code style and abstractions in the target repo.
+
+## Shared skills
+
+If the project uses [agent-utils](https://github.com/your-org/agent-utils) skills, copy or reference them from `.cursor/skills/`. Project-specific skill names and triggers belong in the app's `AGENTS.md`.
+
+## Git
+
+Commit or open PRs **only when the user asks**.

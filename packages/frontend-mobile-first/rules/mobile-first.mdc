@@ -1,0 +1,47 @@
+---
+description: Mobile-first touch UI and native-port-safe layout patterns
+globs: frontend/**/*.{tsx,css}
+alwaysApply: false
+---
+
+# Mobile-First UI
+
+## Breakpoints
+
+Mobile-first: base styles for phone, escalate with `min-width`.
+
+```css
+/* ❌ BAD — desktop shrink */
+@media (max-width: 768px) { .panel { width: 100%; } }
+
+/* ✅ GOOD — mobile escalate */
+.panel { width: 100%; }
+@media (min-width: 768px) { .panel { max-width: 480px; } }
+```
+
+## Touch targets
+
+Minimum **44×44 CSS px**. Minimum **8px** gap between tappable elements.
+
+## Safe areas
+
+Use `env(safe-area-inset-*)` on full-bleed screens. Prefer `100dvh` over `100vh`.
+
+## Interactions
+
+- No hover-only affordances.
+- Use `:active` and visible `:focus-visible` for touch and keyboard.
+
+## Layout
+
+- Single-column primary flows on phone.
+- Bottom-align primary actions for thumb reach when appropriate.
+- Design legible at **375px** width without horizontal scroll.
+
+## Routing
+
+Routes must be deep-linkable URL paths (same paths work in PWA and Capacitor WebView).
+
+See project design docs (e.g. `docs/design/mobile-layout.md`) if present.
+
+Adjust path globs if the frontend directory differs.

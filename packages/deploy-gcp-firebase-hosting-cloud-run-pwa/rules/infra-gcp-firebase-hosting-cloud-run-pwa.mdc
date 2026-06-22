@@ -1,0 +1,38 @@
+---
+description: GCP infra conventions for Firebase Hosting (SPA/PWA) plus Cloud Run API — not other GCP deploy paradigms
+globs: infra/**/*,firebase.json,Dockerfile*,cloudbuild.yaml,.github/workflows/**
+alwaysApply: false
+---
+
+# GCP — Firebase Hosting + Cloud Run (PWA/SPA)
+
+## Architecture
+
+| Component | Service |
+|-----------|---------|
+| Frontend (SPA/PWA) | Firebase Hosting |
+| API | Cloud Run (container from backend `Dockerfile`) |
+| Secrets | GCP Secret Manager |
+| Images | Artifact Registry |
+
+## Firebase Hosting
+
+SPA rewrite all routes to `index.html`. Static assets from frontend build output (typically `frontend/dist`).
+
+## Cloud Run
+
+- Stateless container; scale to zero for dev/staging experiments.
+- Bind secrets via Secret Manager, not env files in the image.
+- Default port: **8080**.
+
+## Environments
+
+Use naming: `dev` (local), cloud dev/staging, `prod`. GCP project IDs and hosting URLs are **project-specific** — read from `AGENTS.md` or the user's request, not hardcoded in shared rules.
+
+## Secrets
+
+Never commit `.env.production` or service account keys.
+
+## Deploy workflow
+
+Use the `deploy-gcp-firebase-hosting-cloud-run-pwa` skill. Provide `{GCP_PROJECT}`, `{CLOUD_RUN_SERVICE}`, and hosting URLs from project context.

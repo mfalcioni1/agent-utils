@@ -1,0 +1,45 @@
+---
+description: FastAPI backend structure and OpenAPI conventions
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# FastAPI Backend
+
+## Layout
+
+```
+backend/app/
+├── main.py
+├── config.py
+├── routers/
+├── services/
+├── models/
+└── schemas/    # Pydantic v2
+```
+
+Adjust if the project uses a different backend directory.
+
+## Endpoints
+
+- Async for I/O-bound work; sync only when justified.
+- Every route has a response model, tags, and OpenAPI documentation.
+
+## Domain logic
+
+Business rules belong in `services/`, not routers. Domain-specific state machines and terminology live in **project rules**, not shared backend rules.
+
+## Auth
+
+Structure for JWT/session hooks but do not implement auth until requested.
+
+## CORS
+
+Configure allowed origins from environment settings. Include Firebase Hosting URLs, custom domains, and `capacitor://` schemes when native apps are planned.
+
+```python
+# ✅ Configure origins from env, not hardcoded in production
+origins = settings.cors_origins
+```
+
+Adjust path globs if the backend directory differs (e.g. `api/**/*.py`).
