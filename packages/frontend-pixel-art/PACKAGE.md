@@ -31,8 +31,8 @@
 ## Adoption
 
 ```powershell
-Copy-Item packages\frontend-pixel-art\rules\* my-app\.cursor\rules\
-Copy-Item -Recurse packages\frontend-pixel-art\skills\* my-app\.cursor\skills\
+Copy-Item packages\frontend-pixel-art\rules\* my-app\.agents\rules\
+Copy-Item -Recurse packages\frontend-pixel-art\skills\* my-app\.agents\skills\
 ```
 
 Define color/spacing tokens in app repo (`docs/design/tokens.md`).

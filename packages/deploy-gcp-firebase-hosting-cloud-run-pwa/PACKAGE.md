@@ -49,8 +49,8 @@ Deploy a **Vite-built SPA/PWA** to **Firebase Hosting** and a **containerized AP
 ## Adoption
 
 ```powershell
-Copy-Item packages\deploy-gcp-firebase-hosting-cloud-run-pwa\rules\* my-app\.cursor\rules\
-Copy-Item -Recurse packages\deploy-gcp-firebase-hosting-cloud-run-pwa\skills\* my-app\.cursor\skills\
+Copy-Item packages\deploy-gcp-firebase-hosting-cloud-run-pwa\rules\* my-app\.agents\rules\
+Copy-Item -Recurse packages\deploy-gcp-firebase-hosting-cloud-run-pwa\skills\* my-app\.agents\skills\
 ```
 
 Add deploy context table to app `AGENTS.md` (see [CATALOG.md](../../CATALOG.md)).

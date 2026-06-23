@@ -30,7 +30,7 @@ React + TypeScript conventions for **Vite** projects: API client layer, hooks, C
 ## Adoption
 
 ```powershell
-Copy-Item packages\frontend-react-vite\rules\* my-app\.cursor\rules\
+Copy-Item packages\frontend-react-vite\rules\* my-app\.agents\rules\
 ```
 
 Adjust `globs` in frontmatter if frontend dir is not `frontend/`.

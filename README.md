@@ -47,7 +47,7 @@ Each package includes a **`PACKAGE.md`**: scope, tags, when to use / not use, re
 
 ```powershell
 # Example: React Vite PWA + FastAPI on Firebase Hosting + Cloud Run
-$DEST = "..\my-app\.cursor"
+$DEST = "..\my-app\.agents"
 
 # Deploy package (rule + skill)
 Copy-Item -Recurse packages\deploy-gcp-firebase-hosting-cloud-run-pwa\rules\* $DEST\rules\

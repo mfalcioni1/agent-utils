@@ -8,7 +8,7 @@ alwaysApply: true
 ## Before editing
 
 1. Read the project's `AGENTS.md` (if present) for repo map, stack, and deploy context.
-2. Check relevant `.cursor/rules/*.mdc` for files you will touch.
+2. Check relevant `.agents/rules/*.mdc` for files you will touch.
 3. Invoke a skill for multi-step tasks (bootstrap, deploy, feature workflows).
 
 ## Scope
@@ -19,7 +19,7 @@ alwaysApply: true
 
 ## Shared skills
 
-If the project uses [agent-utils](https://github.com/your-org/agent-utils) skills, copy or reference them from `.cursor/skills/`. Project-specific skill names and triggers belong in the app's `AGENTS.md`.
+If the project uses [agent-utils](https://github.com/your-org/agent-utils) skills, copy or reference them from `.agents/skills/`. Project-specific skill names and triggers belong in the app's `AGENTS.md`.
 
 ## Git
 

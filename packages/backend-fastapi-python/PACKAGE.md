@@ -30,7 +30,7 @@
 ## Adoption
 
 ```powershell
-Copy-Item packages\backend-fastapi-python\rules\* my-app\.cursor\rules\
+Copy-Item packages\backend-fastapi-python\rules\* my-app\.agents\rules\
 ```
 
 Adjust `globs` if backend dir is not `backend/`. Domain logic stays in app-specific rules.

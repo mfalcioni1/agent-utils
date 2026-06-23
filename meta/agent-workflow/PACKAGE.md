@@ -27,7 +27,7 @@ Cross-cutting **agent working agreements**: read AGENTS.md, minimize scope, use 
 ## Adoption
 
 ```powershell
-Copy-Item meta\agent-workflow\rules\* my-app\.cursor\rules\
+Copy-Item meta\agent-workflow\rules\* my-app\.agents\rules\
 ```
 
 Extend in the app repo with project-specific skill tables (see pidjun's `agent-workflow.mdc` for an example).

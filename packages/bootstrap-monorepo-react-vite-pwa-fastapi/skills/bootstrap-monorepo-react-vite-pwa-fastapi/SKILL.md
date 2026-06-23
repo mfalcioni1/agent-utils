@@ -50,8 +50,8 @@ Bootstrap Progress:
 shared/
 {INFRA_DIR}/
 docs/design/
-.cursor/rules/
-.cursor/skills/
+.agents/rules/
+.agents/skills/
 ```
 
 Add project-specific rules/skills (domain, identity) alongside shared copies from agent-utils.
@@ -125,7 +125,7 @@ Create app-specific (not shared):
 ### Step 9: Verify
 
 ```bash
-bash .cursor/skills/bootstrap-monorepo-react-vite-pwa-fastapi/scripts/verify-bootstrap.sh
+bash .agents/skills/bootstrap-monorepo-react-vite-pwa-fastapi/scripts/verify-bootstrap.sh
 ```
 
 Or run checks manually per [reference.md](reference.md).

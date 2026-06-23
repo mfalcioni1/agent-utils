@@ -33,5 +33,5 @@ PWA requirements using **`vite-plugin-pwa`**: manifest, service worker scope, in
 ## Adoption
 
 ```powershell
-Copy-Item packages\frontend-pwa-vite-plugin\rules\* my-app\.cursor\rules\
+Copy-Item packages\frontend-pwa-vite-plugin\rules\* my-app\.agents\rules\
 ```

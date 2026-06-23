@@ -34,8 +34,8 @@ One sentence describing what this package provides.
 ## Adoption
 
 ```bash
-cp -r packages/{package-name}/rules/* my-app/.cursor/rules/
-cp -r packages/{package-name}/skills/* my-app/.cursor/skills/
+cp -r packages/{package-name}/rules/* my-app/.agents/rules/
+cp -r packages/{package-name}/skills/* my-app/.agents/skills/
 ```
 
 Adjust globs in rule frontmatter if directory names differ.

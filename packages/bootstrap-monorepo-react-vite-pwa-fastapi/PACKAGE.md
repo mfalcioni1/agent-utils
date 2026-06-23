@@ -47,7 +47,7 @@ Scaffold or verify a **monorepo** with **React + Vite + PWA plugin** frontend an
 ## Adoption
 
 ```powershell
-Copy-Item -Recurse packages\bootstrap-monorepo-react-vite-pwa-fastapi\skills\* my-app\.cursor\skills\
+Copy-Item -Recurse packages\bootstrap-monorepo-react-vite-pwa-fastapi\skills\* my-app\.agents\skills\
 ```
 
 Add project-specific `AGENTS.md`, design docs, and domain rules in the app repo.

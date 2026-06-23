@@ -40,5 +40,5 @@ Audit PWA code for **Capacitor** compatibility and guide iOS/Android app-store w
 ## Adoption
 
 ```powershell
-Copy-Item -Recurse packages\frontend-capacitor-native-port\skills\* my-app\.cursor\skills\
+Copy-Item -Recurse packages\frontend-capacitor-native-port\skills\* my-app\.agents\skills\
 ```

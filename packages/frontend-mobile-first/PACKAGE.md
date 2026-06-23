@@ -29,7 +29,7 @@
 ## Adoption
 
 ```powershell
-Copy-Item packages\frontend-mobile-first\rules\* my-app\.cursor\rules\
+Copy-Item packages\frontend-mobile-first\rules\* my-app\.agents\rules\
 ```
 
 Add project-specific layout docs (e.g. `docs/design/mobile-layout.md`) in the app repo.
