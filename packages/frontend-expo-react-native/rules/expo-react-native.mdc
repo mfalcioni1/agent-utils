@@ -1,0 +1,63 @@
+---
+description: Expo and React Native conventions for cross-platform TypeScript clients — not Vite SPA or Next.js
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Expo + React Native Client
+
+## Stack
+
+- **Expo** for build tooling, OTA updates, and native module access.
+- **React Native Web** for the browser target; share 95%+ of UI between platforms.
+- **Rich text:** Lexical or TipTap with custom `@mention` nodes synced to Markdown.
+
+Pick one editor and use it consistently. Do not mix both in the same app.
+
+## Layout
+
+```
+frontend/
+├── app/              # Expo Router screens (or src/screens/)
+├── src/
+│   ├── api/          # HTTP client — all backend calls
+│   ├── components/
+│   ├── editor/       # Lexical/TipTap config, mention nodes
+│   ├── hooks/
+│   └── platform/     # Storage, notifications, device — no direct RN APIs in screens
+├── app.json
+└── package.json
+```
+
+## API access
+
+```typescript
+// ❌ BAD — fetch in a screen component
+const res = await fetch(`${url}/notes`);
+
+// ✅ GOOD — use the api client layer
+import { listNotes } from '@/api/notes';
+const notes = await listNotes();
+```
+
+Backend URLs come from config (`process.env.EXPO_PUBLIC_API_URL`), never hardcoded in components.
+
+## Platform APIs
+
+Storage, notifications, and device info go through `src/platform/` — not `AsyncStorage`, `expo-notifications`, or `Platform` directly from screens.
+
+## Rich-text editor
+
+- Custom inline nodes for `@person` mentions with type-ahead search overlays.
+- Serialize editor state to Markdown for API payloads and session snapshots.
+- Editor changes stay local until the user completes a session; AI never silently mutates note text.
+
+## Async UI
+
+Every async operation needs loading and error states. Use platform-appropriate feedback (ActivityIndicator, toast).
+
+## Styling
+
+Prefer React Native `StyleSheet` or a cross-platform library (e.g. NativeWind). Avoid web-only CSS in shared components.
+
+Adjust path globs if the client directory differs (e.g. `mobile/**/*.{ts,tsx}`).

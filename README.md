@@ -20,7 +20,12 @@ agent-utils/
     ├── frontend-mobile-first/
     ├── frontend-pixel-art/
     ├── frontend-capacitor-native-port/
-    └── backend-fastapi-python/
+    ├── frontend-expo-react-native/
+    ├── bootstrap-monorepo-expo-react-native-fastapi/
+    ├── backend-fastapi-python/
+    ├── backend-postgresql-pgvector/
+    ├── backend-celery-redis/
+    └── backend-ai-orchestration/
 ```
 
 ### Naming convention
@@ -65,10 +70,25 @@ Copy-Item packages\frontend-mobile-first\rules\* $DEST\rules\
 Copy-Item packages\backend-fastapi-python\rules\* $DEST\rules\
 
 # Meta
-Copy-Item packages\meta\agent-workflow\rules\* $DEST\rules\
+Copy-Item meta\agent-workflow\rules\* $DEST\rules\
 ```
 
-4. Add deploy context to the app's `AGENTS.md` (see [CATALOG.md](CATALOG.md)).
+Example: **aery Note** (Expo + FastAPI + PostgreSQL) — see [CATALOG.md](CATALOG.md#aery-note-expo--fastapi--postgresql):
+
+```powershell
+$DEST = "..\aery-note\.agents"
+
+Copy-Item -Recurse packages\bootstrap-monorepo-expo-react-native-fastapi\skills\* $DEST\skills\
+Copy-Item packages\frontend-expo-react-native\rules\* $DEST\rules\
+Copy-Item packages\backend-fastapi-python\rules\* $DEST\rules\
+Copy-Item packages\backend-postgresql-pgvector\rules\* $DEST\rules\
+Copy-Item packages\backend-celery-redis\rules\* $DEST\rules\
+Copy-Item packages\backend-ai-orchestration\rules\* $DEST\rules\
+Copy-Item -Recurse packages\backend-ai-orchestration\skills\* $DEST\skills\
+Copy-Item meta\agent-workflow\rules\* $DEST\rules\
+```
+
+4. Add deploy or stack context to the app's `AGENTS.md` (see [CATALOG.md](CATALOG.md)).
 5. Add project-specific rules/skills (identity, domain logic) in the app repo.
 
 ## Multi-root workspace
@@ -83,4 +103,5 @@ Use **`packages/_template/PACKAGE.md`** as a starting point. Name packages speci
 
 - Product identity, domain models, business terminology
 - Project-specific secrets, URLs, or GCP project IDs
-- Auth provider choice, database choice (add packages when patterns stabilize)
+- Auth provider choice (add packages when patterns stabilize)
+- Product identity and domain terminology (e.g. Aery Note PRD lives in the app repo)

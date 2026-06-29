@@ -1,0 +1,60 @@
+---
+description: LangChain LLM orchestration, model routing, ZDR, and structured JSON extraction for note-processing pipelines
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# AI Orchestration
+
+## Model routing
+
+| Use case | Model | Rationale |
+|----------|-------|-----------|
+| Role-play, coaching, empathetic briefs | Claude 3.5 Sonnet | High-nuance interpersonal logic |
+| Entity JSON, todo parsing, text diffs | GPT-4o-mini | Fast, strict structured output |
+
+Route by task type in `services/ai/`, not ad hoc per endpoint.
+
+## Structured output
+
+LLM responses for extraction must validate against Pydantic schemas:
+
+```python
+class EntityReconciliation(BaseModel):
+    original_text: str
+    matched_id: str | None
+    confidence_reason: str
+
+class SessionExtractionResult(BaseModel):
+    entity_reconciliation: list[EntityReconciliation]
+    extracted_todos: list[ExtractedTodo]
+```
+
+Use LangChain structured output or tool calling. Never `json.loads` on free-form prose without validation.
+
+## Diff & Accept — no silent edits
+
+AI must **not** silently modify note documents. Flow:
+
+1. Client sends markdown snapshot on session complete.
+2. Celery worker runs extraction → strict JSON payload.
+3. Client shows review wizard; user accepts/rejects each suggestion.
+4. Only accepted items commit to the graph (profiles, timelines, tasks).
+
+## Zero-Data Retention
+
+Outbound LLM calls for note content require **ZDR** providers/config:
+
+- No training on customer data.
+- Document provider choice in `AGENTS.md` and env config.
+- Minimize payload: send session snapshot + relevant team node list, not full tenant export.
+
+## RAG
+
+- Retrieve context via pgvector similarity on note embeddings.
+- Scope retrieval by `tenant_id` and relevant profile IDs.
+- Run embedding generation in Celery, not request handlers.
+
+## Framework
+
+Prefer **LangChain** or **LlamaIndex** — pick one per repo and stay consistent. Wrap chains in `services/ai/` for testability.

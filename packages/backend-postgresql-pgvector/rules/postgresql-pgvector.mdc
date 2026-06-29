@@ -1,0 +1,61 @@
+---
+description: PostgreSQL with pgvector and Row-Level Security for multi-tenant FastAPI backends
+globs: backend/**/*.py,infra/db/**/*
+alwaysApply: false
+---
+
+# PostgreSQL + pgvector
+
+## Role
+
+- **Relational data:** teams, profiles, notes, tasks, graph links.
+- **Vector hub:** note text embeddings for semantic search and RAG.
+- **Isolation:** RLS enforces tenant boundaries at the database layer.
+
+## Migrations
+
+- SQL migrations in `infra/db/migrations/` (or Alembic under `backend/`).
+- Enable extension on first migration:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+```
+
+## Embeddings
+
+```python
+# ✅ Store embeddings alongside note rows
+class Note(Base):
+    __tablename__ = "notes"
+    id: Mapped[uuid.UUID]
+    tenant_id: Mapped[uuid.UUID]  # required for RLS
+    body_markdown: Mapped[str]
+    embedding: Mapped[list[float]] = mapped_column(Vector(1536))  # match model dims
+```
+
+Generate embeddings in Celery workers, not in request handlers.
+
+## Row-Level Security
+
+Every tenant-scoped table must have `tenant_id` and RLS policies:
+
+```sql
+ALTER TABLE notes ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY notes_tenant_isolation ON notes
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+```
+
+Set `app.tenant_id` per request/session in the API middleware before queries run.
+
+## Queries
+
+- Use async SQLAlchemy (`asyncpg`) for API routes.
+- Vector similarity: `ORDER BY embedding <=> :query_embedding LIMIT :k`.
+- Business logic stays in `services/`; repositories handle SQL only.
+
+## Secrets
+
+`DATABASE_URL` from environment. Never commit credentials.
+
+Adjust globs if backend or migration paths differ.

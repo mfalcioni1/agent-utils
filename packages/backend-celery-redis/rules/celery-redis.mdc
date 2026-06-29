@@ -1,0 +1,58 @@
+---
+description: Celery and Redis conventions for FastAPI background workers — not in-request LLM processing
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# Celery + Redis
+
+## Layout
+
+```
+backend/app/
+├── worker/
+│   ├── celery_app.py    # Celery instance, broker config
+│   └── tasks/
+│       ├── ai.py        # entity extraction, embeddings
+│       └── integrations.py
+```
+
+## Broker
+
+`REDIS_URL` from environment (e.g. `redis://redis:6379/0`). Same Redis for dev; separate DB index or instance for prod if needed.
+
+## Task design
+
+```python
+# ❌ BAD — heavy LLM work in a FastAPI route
+@router.post("/sessions/complete")
+async def complete_session(body: SessionBody):
+    result = await run_full_extraction(body.text)  # blocks request
+    return result
+
+# ✅ GOOD — enqueue and return job id or poll endpoint
+@router.post("/sessions/complete")
+async def complete_session(body: SessionBody):
+    task = process_session.delay(body.note_id, body.markdown_snapshot)
+    return {"task_id": task.id}
+```
+
+- Tasks are idempotent where possible (safe retries).
+- Pass IDs and snapshots, not ORM objects.
+- Long tasks report progress via result backend or a `job_status` table.
+
+## Error handling
+
+- Set `task_acks_late=True` and reasonable `task_time_limit` for LLM calls.
+- Log failures with `note_id` / `tenant_id` for debugging.
+- Dead-letter or retry with backoff for external API sync.
+
+## Local dev
+
+Run worker alongside API:
+
+```bash
+celery -A app.worker.celery_app worker --loglevel=info
+```
+
+docker-compose should include a `worker` service using the same image as `api`.
